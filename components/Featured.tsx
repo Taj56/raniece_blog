@@ -2,14 +2,14 @@ import Image from "next/image"
 import selfImage from '@/assets/images/self.jpg'
 import secondImage from '@/assets/images/second.jpg'
 import thirdImage from '@/assets/images/third.png'
-import borderStyle from '@/assets/images/style.png'
+// import borderStyle from '@/assets/images/style.png'
 
 const Featured = () => {
   return (
-    <section className="w-full min-h-screen">
+    <section className="w-full min-h-screen relative">
         <h3 className="text-3xl font-bold font-serif mb-12 mt-16 ml-12 md:ml-[335px] md:mt-56 md:mb-0">Featured Posts</h3>
 
-        <div className="w-full min-h-screen flex flex-col md:flex-row justify-center items-center gap-5 md:-mt-28 relative">
+        <div className="w-full min-h-screen flex flex-col md:flex-row justify-center items-center gap-5 md:-mt-28">
             <div className="w-[500px]l h-full flex flex-col gap-5 justify-center items-center">
 
                 <div className="flex flex-col md:flex-row">
@@ -62,9 +62,9 @@ const Featured = () => {
                 </div>
             </div>
 
-            <div className="w-full hidden md:block absolute bottom-5">
+            {/* <div className="w-full hidden md:block absolute bottom-5">
                 <Image src={borderStyle} alt={'border style'} width={250} height={250} className="w-full"/>
-            </div>  
+            </div>   */}
         </div>
 
     </section>
