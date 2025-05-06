@@ -10,22 +10,29 @@ export const postType = defineType({
     defineField({
       name: 'title',
       type: 'string',
+      title: 'Title of the post',
     }),
     defineField({
       name: 'slug',
       type: 'slug',
+      title: 'Slug of the post',
       options: {
         source: 'title',
       },
     }),
     defineField({
       name: 'author',
-      type: 'reference',
-      to: {type: 'author'},
+      type: 'string',
+    }),
+    defineField({
+      name: 'description',
+      type: 'text',
+      title: 'Description of the post',
     }),
     defineField({
       name: 'mainImage',
       type: 'image',
+      title: 'Main image',
       options: {
         hotspot: true,
       },

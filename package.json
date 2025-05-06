@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "typegen": "npx sanity@latest schema extract && npx sanity@latest typegen generate",
     "lint": "next lint"
   },
   "dependencies": {
