@@ -27,21 +27,27 @@ type RecentPost = {
   mainImage?: { asset?: any; alt?: string }
 }
 
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
+
 function formatTopDate(dateISO?: string) {
   if (!dateISO) return ""
   const d = new Date(dateISO)
   if (Number.isNaN(d.getTime())) return ""
-  return d.toLocaleDateString(undefined, { month: "short", day: "2-digit", year: "numeric" })
+  return d.toLocaleDateString(undefined, {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  })
 }
 
 export const revalidate = 60
 
-export default async function SingleBlogPostPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  const post = await client.fetch<Post>(singlePostBySlugQuery, { slug: params.slug })
+export default async function SingleBlogPostPage({ params }: PageProps) {
+  const { slug } = await params
+
+  const post = await client.fetch<Post>(singlePostBySlugQuery, { slug })
 
   if (!post?._id) {
     return (
@@ -59,10 +65,9 @@ export default async function SingleBlogPostPage({
   const recent = await client.fetch<RecentPost[]>(recentPostsQuery)
 
   const dateLabel = formatTopDate(post.publishedAt)
-  const heroUrl =
-    post.mainImage?.asset
-      ? urlFor(post.mainImage).width(1400).height(800).fit("crop").url()
-      : ""
+  const heroUrl = post.mainImage?.asset
+    ? urlFor(post.mainImage).width(1400).height(800).fit("crop").url()
+    : ""
 
   return (
     <Container className="min-h-screen pt-10">
@@ -97,10 +102,9 @@ export default async function SingleBlogPostPage({
                 .filter((p) => p.slug !== post.slug)
                 .slice(0, 3)
                 .map((p) => {
-                  const img =
-                    p.mainImage?.asset
-                      ? urlFor(p.mainImage).width(500).height(350).fit("crop").url()
-                      : "/mini.webp"
+                  const img = p.mainImage?.asset
+                    ? urlFor(p.mainImage).width(500).height(350).fit("crop").url()
+                    : "/mini.webp"
 
                   return (
                     <Link

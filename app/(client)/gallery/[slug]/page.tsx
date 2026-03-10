@@ -26,11 +26,17 @@ type GalleryImage = {
   image?: { asset?: any; alt?: string }
 }
 
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
+
 export const revalidate = 60
 
-export default async function GalleryCategoryPage({ params }: { params: { slug: string } }) {
+export default async function GalleryCategoryPage({ params }: PageProps) {
+  const { slug } = await params
+
   const category = await client.fetch<Category>(galleryCategoryBySlugQuery, {
-    slug: params.slug,
+    slug,
   })
 
   if (!category?._id) {
@@ -47,33 +53,25 @@ export default async function GalleryCategoryPage({ params }: { params: { slug: 
   }
 
   const images = await client.fetch<GalleryImage[]>(galleryImagesByCategorySlugQuery, {
-    slug: params.slug,
+    slug,
   })
 
-  // Previous/Next
   const slugs = await client.fetch<{ slug: string }[]>(galleryCategorySlugsQuery)
-  const idx = slugs.findIndex((s) => s.slug === params.slug)
+  const idx = slugs.findIndex((s) => s.slug === slug)
   const prev = idx > 0 ? slugs[idx - 1]?.slug : null
   const next = idx >= 0 && idx < slugs.length - 1 ? slugs[idx + 1]?.slug : null
 
-  const hero =
-    category.coverImage?.asset
-      ? urlFor(category.coverImage).width(2400).height(1400).fit("crop").url()
-      : "/mini.webp"
+  const hero = category.coverImage?.asset
+    ? urlFor(category.coverImage).width(2400).height(1400).fit("crop").url()
+    : "/mini.webp"
 
-  // Split layout like Wix:
-  // 1 big hero
-  // 2-up row
-  // remaining 2-up rows
   const firstTwo = images.slice(0, 2)
   const rest = images.slice(2)
 
   return (
     <Container className="min-h-screen pt-12">
       <div className="mx-auto w-full max-w-[1400px] px-10">
-        {/* Top layout */}
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-start">
-          {/* Left: title + meta */}
           <div className="md:col-span-6">
             <h1 className="font-serif text-[72px] font-bold leading-[0.95] tracking-tight text-gray-900">
               {category.title || ""}
@@ -92,7 +90,6 @@ export default async function GalleryCategoryPage({ params }: { params: { slug: 
             </div>
           </div>
 
-          {/* Right: summary aligned high/right like Wix */}
           <div className="md:col-span-6 md:flex md:justify-end">
             <p className="mt-4 max-w-[420px] text-[14px] leading-7 text-gray-700 md:mt-2">
               {category.summary || ""}
@@ -100,7 +97,6 @@ export default async function GalleryCategoryPage({ params }: { params: { slug: 
           </div>
         </div>
 
-        {/* Big hero image (wide) */}
         <div className="relative mt-16 w-full overflow-hidden border border-gray-200 bg-white">
           <div className="relative h-[420px] w-full sm:h-[520px] md:h-[620px]">
             <Image
@@ -113,14 +109,12 @@ export default async function GalleryCategoryPage({ params }: { params: { slug: 
           </div>
         </div>
 
-        {/* 2-up row like Wix */}
         {firstTwo.length > 0 ? (
           <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2">
             {firstTwo.map((img) => {
-              const src =
-                img.image?.asset
-                  ? urlFor(img.image).width(2000).height(1500).fit("crop").url()
-                  : "/mini.webp"
+              const src = img.image?.asset
+                ? urlFor(img.image).width(2000).height(1500).fit("crop").url()
+                : "/mini.webp"
 
               return (
                 <div
@@ -141,14 +135,12 @@ export default async function GalleryCategoryPage({ params }: { params: { slug: 
           </div>
         ) : null}
 
-        {/* Remaining images in 2-up rows */}
         {rest.length > 0 ? (
           <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2">
             {rest.map((img) => {
-              const src =
-                img.image?.asset
-                  ? urlFor(img.image).width(2000).height(1500).fit("crop").url()
-                  : "/mini.webp"
+              const src = img.image?.asset
+                ? urlFor(img.image).width(2000).height(1500).fit("crop").url()
+                : "/mini.webp"
 
               return (
                 <div
@@ -169,7 +161,6 @@ export default async function GalleryCategoryPage({ params }: { params: { slug: 
           </div>
         ) : null}
 
-        {/* Prev / Next */}
         <div className="mt-14 flex items-center justify-between border-t border-gray-200 pt-10 text-sm text-gray-700">
           {prev ? (
             <Link href={`/gallery/${prev}`} className="hover:underline">
