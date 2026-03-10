@@ -1,5 +1,5 @@
 import Image from "next/image"
-import secondImage from '@/assets/images/second.jpg'
+// import secondImage from '@/assets/images/second.jpg'
 import thirdImage from '@/assets/images/third.png'
 import { getFeaturedData } from "@/sanity/lib/helpers/queries"
 import { FEATURED_QUERYResult } from "@/sanity.types"

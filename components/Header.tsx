@@ -70,8 +70,9 @@ export default function Header() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
               <NavLink href="/" text="Home" />
+              <NavLink href="/blog" text="Blog" />
               <NavLink href="/about" text="About" />
-              <NavLink href="/services" text="Services" />
+              <NavLink href="/gallery" text="Gallery" />
               <NavLink href="/contact" text="Contact" />
             </div>
 
@@ -154,8 +155,9 @@ export default function Header() {
         </div>
         <div className="px-4 py-2 flex flex-col space-y-4">
           <MobileNavLink href="/" text="Home" />
+          <MobileNavLink href="/blog" text="Blog" />
           <MobileNavLink href="/about" text="About" />
-          <MobileNavLink href="/services" text="Services" />
+          <MobileNavLink href="/gallery" text="Gallery" />
           <MobileNavLink href="/contact" text="Contact" />
         </div>
       </div>
