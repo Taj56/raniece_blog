@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image"
 import { PortableText, type PortableTextComponents } from "@portabletext/react"
 import { urlFor } from "@/sanity/lib/image"

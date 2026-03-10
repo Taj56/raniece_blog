@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Container from "@/components/Container"
 import Link from "next/link"
 import Image from "next/image"
